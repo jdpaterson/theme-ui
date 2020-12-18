@@ -6,7 +6,7 @@
   "license": "MIT",
   "peerDependencies": {
     "gatsby": "^2.13.1",
-    "theme-ui": "^0.5.0-alpha.0"
+    "theme-ui": "git+ssh://git@github.com/jdpaterson/theme-ui.git"
   },
   "keywords": [
     "gatsby",
