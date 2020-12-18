@@ -65,11 +65,13 @@ export declare namespace jsx {
 export interface ContextValue {
   __EMOTION_VERSION__: string
   theme: Theme
+  setTheme: (theme:Theme) => void
 }
 
 export const Context = React.createContext<ContextValue>({
   __EMOTION_VERSION__,
   theme: {},
+  setTheme: (theme) => {}
 })
 
 export const useThemeUI = () => React.useContext(Context)
@@ -125,6 +127,7 @@ export interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ theme, children }: ThemeProviderProps) {
+  const [themeState, setThemeState] = React.useState<Theme | ((theme: Theme) => void)>(theme)
   const outer = useThemeUI()
 
   if (process.env.NODE_ENV !== 'production') {
@@ -140,7 +143,7 @@ export function ThemeProvider({ theme, children }: ThemeProviderProps) {
   const context =
     typeof theme === 'function'
       ? { ...outer, theme: theme(outer.theme) }
-      : merge.all({}, outer, { theme })
+      : merge.all({}, outer, { theme: themeState, setTheme: setThemeState })
 
   return jsx(BaseProvider, { context }, children)
 }
